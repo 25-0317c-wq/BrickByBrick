@@ -5,62 +5,107 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BrickByBrick.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-        <Border Background="White" CornerRadius="12" Padding="30" Width="350" 
-                BorderBrush="#E2E8F0" BorderThickness="1">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="15" Direction="270" ShadowDepth="2" Opacity="0.05"/>
-            </Border.Effect>
+        Title="BrickByBrick" Height="620" Width="900"
+        Background="{StaticResource BackgroundBrush}"
+        WindowStartupLocation="CenterScreen">
 
-            <StackPanel>
-                <TextBlock Text="🏢" FontSize="46" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                <TextBlock Text="BrickByBrick" FontSize="28" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Center"/>
-                <TextBlock Text="Construction Management System" FontSize="13" Foreground="#64748B" HorizontalAlignment="Center" Margin="0,0,0,25"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-                <Border Background="#F1F5F9" CornerRadius="6" Padding="12" Margin="0,0,0,20">
-                    <TextBlock Text="{Binding StatusMessage}" Foreground="#334155" FontSize="12" 
-                               FontWeight="Medium" TextWrapping="Wrap" TextAlignment="Center"/>
-                </Border>
+        <!-- ============================================================ -->
+        <!--  LEFT PANEL — SDG 9 "Infrastructure & Innovation" branding   -->
+        <!-- ============================================================ -->
+        <Border Grid.Column="0" Background="{StaticResource SteelNavyBrush}">
+            <Grid Margin="48">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                <TextBlock Text="Simulate Identity Token Connection:" FontSize="12" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,8"/>
+                <StackPanel Grid.Row="0" VerticalAlignment="Center">
 
-                <Button Content="Sign In as Administrator" Command="{Binding SimulateLoginCommand}" CommandParameter="admin" Height="40" Background="#EA4335" Foreground="White" FontWeight="Bold" BorderThickness="0" Margin="0,4">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="6"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                    <!-- Three connected cubes motif (SDG9 icon language) -->
+                    <Grid Width="64" Height="64" HorizontalAlignment="Left" Margin="0,0,0,28">
+                        <Path Data="M8,28 L28,18 L48,28 L48,48 L28,58 L8,48 Z"
+                              Fill="{StaticResource Sdg9OrangeBrush}" Opacity="0.95"/>
+                        <Path Data="M28,18 L48,8 L64,16 L64,36 L48,28 Z"
+                              Fill="{StaticResource Sdg9OrangeDarkBrush}" Opacity="0.85"/>
+                        <Path Data="M8,28 L8,8 L28,0 L28,18 Z"
+                              Fill="#FF8A52" Opacity="0.9"/>
+                    </Grid>
 
-                <Button Content="Sign In as Project Manager" Command="{Binding SimulateLoginCommand}" CommandParameter="manager" Height="40" Background="#4285F4" Foreground="White" FontWeight="Bold" BorderThickness="0" Margin="0,4">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="6"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                    <TextBlock Text="BrickByBrick" FontSize="34" FontWeight="Bold"
+                               Foreground="White" FontFamily="Segoe UI Semibold"/>
+                    <TextBlock Text="Construction Management System" FontSize="14"
+                               Foreground="#AEB9C9" Margin="0,4,0,28"/>
 
-                <Button Content="Sign In as Field Employee" Command="{Binding SimulateLoginCommand}" CommandParameter="employee" Height="40" Background="#34A853" Foreground="White" FontWeight="Bold" BorderThickness="0" Margin="0,4">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="6"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                    <Border Background="#22324A" CornerRadius="8" Padding="16" MaxWidth="380"
+                            BorderBrush="#33455F" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="SDG 9 · INDUSTRY, INNOVATION &amp; INFRASTRUCTURE"
+                                       FontSize="10" FontWeight="Bold" Foreground="{StaticResource Sdg9OrangeBrush}"
+                                       Margin="0,0,0,6"/>
+                            <TextBlock Text="Building resilient infrastructure and fostering innovation across every project, one brick at a time."
+                                       FontSize="12" Foreground="#C9D2DE" TextWrapping="Wrap" LineHeight="18"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                <Button Content="Sign In as External Client" Command="{Binding SimulateLoginCommand}" CommandParameter="client" Height="40" Background="#FBBC05" Foreground="#0F172A" FontWeight="Bold" BorderThickness="0" Margin="0,4">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="6"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-
-                <Separator Margin="0,15" Background="#E2E8F0"/>
-                <TextBlock Text="System Framework Engine Layer v1.0.0" FontSize="10" Foreground="#94A3B8" HorizontalAlignment="Center"/>
-            </StackPanel>
+                <TextBlock Grid.Row="1" Text="System Framework Engine Layer v1.0.0"
+                           FontSize="10" Foreground="#5B6B82"/>
+            </Grid>
         </Border>
+
+        <!-- ============================================================ -->
+        <!--  RIGHT PANEL — Sign-in card                                  -->
+        <!-- ============================================================ -->
+        <Grid Grid.Column="1" Background="{StaticResource BackgroundBrush}">
+            <Border Background="{StaticResource SurfaceBrush}" CornerRadius="14"
+                    Padding="36" Width="360" MaxHeight="560"
+                    BorderBrush="{StaticResource OutlineBrush}" BorderThickness="1"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Style="{StaticResource ElevationCard1}">
+                <StackPanel>
+
+                    <TextBlock Text="Welcome back" Style="{StaticResource HeadlineText}"/>
+                    <TextBlock Text="Simulate identity token connection" Style="{StaticResource SubtitleText}"
+                               Margin="0,2,0,22"/>
+
+                    <!-- Status banner bound to ViewModel -->
+                    <Border Style="{StaticResource StatusBannerBorder}" Margin="0,0,0,22">
+                        <TextBlock Text="{Binding StatusMessage}"
+                                   Foreground="{StaticResource SteelNavyBrush}"
+                                   FontSize="12" FontWeight="SemiBold"
+                                   TextWrapping="Wrap" TextAlignment="Left"/>
+                    </Border>
+
+                    <TextBlock Text="SIGN IN AS" Style="{StaticResource SectionLabelText}" Margin="0,0,0,10"/>
+
+                    <Button Content="🛠   Administrator" Background="{StaticResource RoleAdminBrush}"
+                            Command="{Binding SimulateLoginCommand}" CommandParameter="admin"
+                            Style="{StaticResource MaterialRoleButton}"/>
+
+                    <Button Content="📐   Project Manager" Background="{StaticResource RoleManagerBrush}"
+                            Command="{Binding SimulateLoginCommand}" CommandParameter="manager"
+                            Style="{StaticResource MaterialRoleButton}"/>
+
+                    <Button Content="🦺   Field Employee" Background="{StaticResource RoleEmployeeBrush}"
+                            Command="{Binding SimulateLoginCommand}" CommandParameter="employee"
+                            Style="{StaticResource MaterialRoleButton}"/>
+
+                    <Button Content="🏗   External Client" Background="{StaticResource RoleClientBrush}"
+                            Command="{Binding SimulateLoginCommand}" CommandParameter="client"
+                            Style="{StaticResource MaterialRoleButton}"/>
+
+                    <Separator Margin="0,18,0,12" Background="{StaticResource OutlineBrush}"/>
+                    <TextBlock Text="Authenticated sessions are simulated for demonstration purposes."
+                               Style="{StaticResource CaptionText}" TextWrapping="Wrap"
+                               TextAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
-
