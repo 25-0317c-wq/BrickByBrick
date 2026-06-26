@@ -5,9 +5,169 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BrickByBrick.View"
         mc:Ignorable="d"
-        Title="BrickByBrick" Height="620" Width="900"
+        Title="BrickByBrick" Height="640" Width="900"
         Background="{StaticResource BackgroundBrush}"
         WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+
+        <!-- Material-style underline text field (shared template for username/password) -->
+        <Style x:Key="MaterialTextField" TargetType="TextBox">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="2,0,2,6"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource OutlineBrush}"/>
+            <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+            <Setter Property="CaretBrush" Value="{StaticResource Sdg9OrangeBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <Border x:Name="FieldBorder"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Background="{TemplateBinding Background}">
+                                <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="FieldBorder" Property="BorderBrush" Value="{StaticResource Sdg9OrangeBrush}"/>
+                                <Setter TargetName="FieldBorder" Property="BorderThickness" Value="0,0,0,2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Same treatment for PasswordBox -->
+        <Style x:Key="MaterialPasswordField" TargetType="PasswordBox">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="2,0,2,6"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource OutlineBrush}"/>
+            <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+            <Setter Property="CaretBrush" Value="{StaticResource Sdg9OrangeBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Grid>
+                            <Border x:Name="FieldBorder"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Background="{TemplateBinding Background}">
+                                <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="FieldBorder" Property="BorderBrush" Value="{StaticResource Sdg9OrangeBrush}"/>
+                                <Setter TargetName="FieldBorder" Property="BorderThickness" Value="0,0,0,2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Field label above each input -->
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource SteelBlueGrayBrush}"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+
+        <!-- Primary "Sign In" button -->
+        <Style x:Key="PrimarySignInButton" TargetType="Button">
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Background" Value="{StaticResource Sdg9OrangeBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="RootBorder" Background="{TemplateBinding Background}" CornerRadius="8">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="2"
+                                                   Color="#FD6925" Opacity="0.30"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="RootBorder" Property="Opacity" Value="0.92"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="RootBorder" Property="Opacity" Value="0.82"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Secondary "Sign in with Google" outlined button -->
+        <Style x:Key="GoogleSignInButton" TargetType="Button">
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="RootBorder" Background="{TemplateBinding Background}" CornerRadius="8"
+                                BorderBrush="{StaticResource OutlineBrush}" BorderThickness="1.2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="RootBorder" Property="Background" Value="{StaticResource BackgroundBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="RootBorder" Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- "Create an account" link-style button -->
+        <Style x:Key="LinkButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource Sdg9OrangeBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -60,50 +220,67 @@
         </Border>
 
         <!-- ============================================================ -->
-        <!--  RIGHT PANEL — Sign-in card                                  -->
+        <!--  RIGHT PANEL — Real Sign-in form                              -->
         <!-- ============================================================ -->
         <Grid Grid.Column="1" Background="{StaticResource BackgroundBrush}">
             <Border Background="{StaticResource SurfaceBrush}" CornerRadius="14"
-                    Padding="36" Width="360" MaxHeight="560"
+                    Padding="40,36" Width="380"
                     BorderBrush="{StaticResource OutlineBrush}" BorderThickness="1"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
                     Style="{StaticResource ElevationCard1}">
                 <StackPanel>
 
                     <TextBlock Text="Welcome back" Style="{StaticResource HeadlineText}"/>
-                    <TextBlock Text="Simulate identity token connection" Style="{StaticResource SubtitleText}"
-                               Margin="0,2,0,22"/>
+                    <TextBlock Text="Sign in to your BrickByBrick account" Style="{StaticResource SubtitleText}"
+                               Margin="0,2,0,26"/>
 
-                    <!-- Status banner bound to ViewModel -->
-                    <Border Style="{StaticResource StatusBannerBorder}" Margin="0,0,0,22">
-                        <TextBlock Text="{Binding StatusMessage}"
-                                   Foreground="{StaticResource SteelNavyBrush}"
-                                   FontSize="12" FontWeight="SemiBold"
-                                   TextWrapping="Wrap" TextAlignment="Left"/>
-                    </Border>
+                    <!-- Username -->
+                    <TextBlock Text="USERNAME OR EMAIL" Style="{StaticResource FieldLabel}"/>
+                    <TextBox x:Name="UsernameTextBox" Style="{StaticResource MaterialTextField}" Margin="0,0,0,18"/>
 
-                    <TextBlock Text="SIGN IN AS" Style="{StaticResource SectionLabelText}" Margin="0,0,0,10"/>
+                    <!-- Password -->
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="PASSWORD" Style="{StaticResource FieldLabel}"/>
+                        <TextBlock Grid.Column="1" Text="Forgot password?" FontSize="11" FontWeight="SemiBold"
+                                   Foreground="{StaticResource Sdg9OrangeBrush}" Cursor="Hand"/>
+                    </Grid>
+                    <PasswordBox x:Name="PasswordBox" Style="{StaticResource MaterialPasswordField}" Margin="0,0,0,22"/>
 
-                    <Button Content="🛠   Administrator" Background="{StaticResource RoleAdminBrush}"
-                            Command="{Binding SimulateLoginCommand}" CommandParameter="admin"
-                            Style="{StaticResource MaterialRoleButton}"/>
+                    <!-- Sign in button -->
+                    <Button Content="Sign In" Style="{StaticResource PrimarySignInButton}" Margin="0,0,0,16"/>
 
-                    <Button Content="📐   Project Manager" Background="{StaticResource RoleManagerBrush}"
-                            Command="{Binding SimulateLoginCommand}" CommandParameter="manager"
-                            Style="{StaticResource MaterialRoleButton}"/>
+                    <!-- Divider -->
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Separator Grid.Column="0" Background="{StaticResource OutlineBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="OR" FontSize="10" FontWeight="Bold"
+                                   Foreground="{StaticResource TextSecondaryBrush}" Margin="10,0"/>
+                        <Separator Grid.Column="2" Background="{StaticResource OutlineBrush}" VerticalAlignment="Center"/>
+                    </Grid>
 
-                    <Button Content="🦺   Field Employee" Background="{StaticResource RoleEmployeeBrush}"
-                            Command="{Binding SimulateLoginCommand}" CommandParameter="employee"
-                            Style="{StaticResource MaterialRoleButton}"/>
+                    <!-- Google sign-in -->
+                    <Button Style="{StaticResource GoogleSignInButton}" Margin="0,0,0,22">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="G" FontSize="15" FontWeight="Bold" Foreground="#4285F4" Margin="0,0,8,0"/>
+                            <TextBlock Text="Sign in with Google" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
 
-                    <Button Content="🏗   External Client" Background="{StaticResource RoleClientBrush}"
-                            Command="{Binding SimulateLoginCommand}" CommandParameter="client"
-                            Style="{StaticResource MaterialRoleButton}"/>
+                    <!-- Create account -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="Don't have an account?" FontSize="12"
+                                   Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                        <Button Content="Create one" Style="{StaticResource LinkButton}" Margin="6,0,0,0"/>
+                    </StackPanel>
 
-                    <Separator Margin="0,18,0,12" Background="{StaticResource OutlineBrush}"/>
-                    <TextBlock Text="Authenticated sessions are simulated for demonstration purposes."
-                               Style="{StaticResource CaptionText}" TextWrapping="Wrap"
-                               TextAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
         </Grid>

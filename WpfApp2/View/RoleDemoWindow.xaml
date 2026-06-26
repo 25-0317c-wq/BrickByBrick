@@ -1,0 +1,144 @@
+﻿<Window x:Class="BrickByBrick.View.RoleDemoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BrickByBrick.View"
+        mc:Ignorable="d"
+        Title="BrickByBrick — Role Demo" Height="620" Width="900"
+        Background="{StaticResource BackgroundBrush}"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <!-- ============================================================ -->
+        <!--  NAVIGATION: show AdminDashboardView once an Admin has       -->
+        <!--  signed in; otherwise show the role-pick screen below.       -->
+        <!--  UI-only navigation — swaps content based on CurrentUserRole.-->
+        <!-- ============================================================ -->
+        <ContentControl x:Name="AdminDashboardHost" Visibility="Collapsed">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentUserRole}" Value="Admin">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <local:AdminDashboardView/>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentUserRole}" Value="Admin">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ============================================================ -->
+            <!--  LEFT PANEL — SDG 9 "Infrastructure & Innovation" branding   -->
+            <!-- ============================================================ -->
+            <Border Grid.Column="0" Background="{StaticResource SteelNavyBrush}">
+                <Grid Margin="48">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" VerticalAlignment="Center">
+
+                        <!-- Three connected cubes motif (SDG9 icon language) -->
+                        <Grid Width="64" Height="64" HorizontalAlignment="Left" Margin="0,0,0,28">
+                            <Path Data="M8,28 L28,18 L48,28 L48,48 L28,58 L8,48 Z"
+                                  Fill="{StaticResource Sdg9OrangeBrush}" Opacity="0.95"/>
+                            <Path Data="M28,18 L48,8 L64,16 L64,36 L48,28 Z"
+                                  Fill="{StaticResource Sdg9OrangeDarkBrush}" Opacity="0.85"/>
+                            <Path Data="M8,28 L8,8 L28,0 L28,18 Z"
+                                  Fill="#FF8A52" Opacity="0.9"/>
+                        </Grid>
+
+                        <TextBlock Text="BrickByBrick" FontSize="34" FontWeight="Bold"
+                                   Foreground="White" FontFamily="Segoe UI Semibold"/>
+                        <TextBlock Text="Construction Management System" FontSize="14"
+                                   Foreground="#AEB9C9" Margin="0,4,0,28"/>
+
+                        <Border Background="#22324A" CornerRadius="8" Padding="16" MaxWidth="380"
+                                BorderBrush="#33455F" BorderThickness="1">
+                            <StackPanel>
+                                <TextBlock Text="SDG 9 · INDUSTRY, INNOVATION &amp; INFRASTRUCTURE"
+                                           FontSize="10" FontWeight="Bold" Foreground="{StaticResource Sdg9OrangeBrush}"
+                                           Margin="0,0,0,6"/>
+                                <TextBlock Text="Building resilient infrastructure and fostering innovation across every project, one brick at a time."
+                                           FontSize="12" Foreground="#C9D2DE" TextWrapping="Wrap" LineHeight="18"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="1" Text="System Framework Engine Layer v1.0.0 — Panelist Demo Mode"
+                               FontSize="10" Foreground="#5B6B82"/>
+                </Grid>
+            </Border>
+
+            <!-- ============================================================ -->
+            <!--  RIGHT PANEL — Role-pick demo card                           -->
+            <!-- ============================================================ -->
+            <Grid Grid.Column="1" Background="{StaticResource BackgroundBrush}">
+                <Border Background="{StaticResource SurfaceBrush}" CornerRadius="14"
+                        Padding="36" Width="360" MaxHeight="560"
+                        BorderBrush="{StaticResource OutlineBrush}" BorderThickness="1"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Style="{StaticResource ElevationCard1}">
+                    <StackPanel>
+
+                        <TextBlock Text="Welcome back" Style="{StaticResource HeadlineText}"/>
+                        <TextBlock Text="Simulate identity token connection" Style="{StaticResource SubtitleText}"
+                                   Margin="0,2,0,22"/>
+
+                        <!-- Status banner bound to ViewModel -->
+                        <Border Style="{StaticResource StatusBannerBorder}" Margin="0,0,0,22">
+                            <TextBlock Text="{Binding StatusMessage}"
+                                       Foreground="{StaticResource SteelNavyBrush}"
+                                       FontSize="12" FontWeight="SemiBold"
+                                       TextWrapping="Wrap" TextAlignment="Left"/>
+                        </Border>
+
+                        <TextBlock Text="SIGN IN AS" Style="{StaticResource SectionLabelText}" Margin="0,0,0,10"/>
+
+                        <Button Content="🛠   Administrator" Background="{StaticResource RoleAdminBrush}"
+                                Command="{Binding SimulateLoginCommand}" CommandParameter="admin"
+                                Style="{StaticResource MaterialRoleButton}"/>
+
+                        <Button Content="📐   Project Manager" Background="{StaticResource RoleManagerBrush}"
+                                Command="{Binding SimulateLoginCommand}" CommandParameter="manager"
+                                Style="{StaticResource MaterialRoleButton}"/>
+
+                        <Button Content="🦺   Field Employee" Background="{StaticResource RoleEmployeeBrush}"
+                                Command="{Binding SimulateLoginCommand}" CommandParameter="employee"
+                                Style="{StaticResource MaterialRoleButton}"/>
+
+                        <Button Content="🏗   External Client" Background="{StaticResource RoleClientBrush}"
+                                Command="{Binding SimulateLoginCommand}" CommandParameter="client"
+                                Style="{StaticResource MaterialRoleButton}"/>
+
+                        <Separator Margin="0,18,0,12" Background="{StaticResource OutlineBrush}"/>
+                        <TextBlock Text="Authenticated sessions are simulated for demonstration purposes."
+                                   Style="{StaticResource CaptionText}" TextWrapping="Wrap"
+                                   TextAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
