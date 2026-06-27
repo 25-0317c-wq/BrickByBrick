@@ -23,7 +23,7 @@
                             <Setter Property="Visibility" Value="Visible"/>
                             <Setter Property="Content">
                                 <Setter.Value>
-                                    <local:AdminDashboardView/>
+                                    <local:AdminOverviewView/>
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
