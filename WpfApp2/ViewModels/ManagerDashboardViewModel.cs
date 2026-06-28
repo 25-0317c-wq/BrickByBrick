@@ -82,11 +82,41 @@ namespace BrickByBrick.ViewModels
         public ICommand ConfirmRejectCommand { get; }
         public ICommand CancelRejectCommand { get; }
 
+        // -----------------------------------------------------------------
+        // Add Project dialog (Manager-initiated project creation)
+        // -----------------------------------------------------------------
+        private bool _isAddProjectDialogOpen;
+        public bool IsAddProjectDialogOpen
+        {
+            get => _isAddProjectDialogOpen;
+            set { _isAddProjectDialogOpen = value; OnPropertyChanged(); }
+        }
+
+        public AddProjectFormViewModel NewProjectForm { get; }
+
+        public ICommand OpenAddProjectDialogCommand { get; }
+        public ICommand SaveNewProjectCommand { get; }
+        public ICommand CancelAddProjectCommand { get; }
+
+        // -----------------------------------------------------------------
+        // Project detail navigation — set when a project card is clicked,
+        // read by the hosting shell window to swap to ProjectDetailView.
+        // -----------------------------------------------------------------
+        private ProjectProposal? _selectedProjectForDetail;
+        public ProjectProposal? SelectedProjectForDetail
+        {
+            get => _selectedProjectForDetail;
+            set { _selectedProjectForDetail = value; OnPropertyChanged(); }
+        }
+
+        public ICommand ViewProjectDetailCommand { get; }
+
         public ManagerDashboardViewModel()
         {
             PendingProposals = new ObservableCollection<ProjectProposal>();
             ApprovedProjects = new ObservableCollection<ProjectProposal>();
             RejectedProposals = new ObservableCollection<ProjectProposal>();
+            NewProjectForm = new AddProjectFormViewModel();
 
             // Keep the bucketed lists in sync whenever the shared store's
             // proposal collection changes (e.g. a Client submits a new one).
@@ -101,6 +131,12 @@ namespace BrickByBrick.ViewModels
             RejectCommand = new RelayCommand(ExecuteRequestReject);
             ConfirmRejectCommand = new RelayCommand(_ => ExecuteConfirmReject());
             CancelRejectCommand = new RelayCommand(_ => ExecuteCancelReject());
+
+            OpenAddProjectDialogCommand = new RelayCommand(_ => ExecuteOpenAddProjectDialog());
+            SaveNewProjectCommand = new RelayCommand(_ => ExecuteSaveNewProject());
+            CancelAddProjectCommand = new RelayCommand(_ => ExecuteCancelAddProject());
+
+            ViewProjectDetailCommand = new RelayCommand(ExecuteViewProjectDetail);
         }
 
         private void RefreshBuckets()
@@ -189,6 +225,50 @@ namespace BrickByBrick.ViewModels
         {
             IsRejectDialogOpen = false;
             _proposalPendingRejection = null;
+        }
+
+        private void ExecuteOpenAddProjectDialog()
+        {
+            NewProjectForm.Reset();
+            IsAddProjectDialogOpen = true;
+        }
+
+        private void ExecuteCancelAddProject()
+        {
+            IsAddProjectDialogOpen = false;
+        }
+
+        private void ExecuteSaveNewProject()
+        {
+            if (string.IsNullOrWhiteSpace(NewProjectForm.ProjectName))
+            {
+                return;
+            }
+
+            var project = new ProjectProposal
+            {
+                Title = NewProjectForm.ProjectName,
+                Description = $"{NewProjectForm.ProjectType} project — {NewProjectForm.ProjectPhase}",
+                Phase = string.IsNullOrWhiteSpace(NewProjectForm.ProjectPhase) ? "Planning" : NewProjectForm.ProjectPhase,
+                Location = string.IsNullOrWhiteSpace(NewProjectForm.ProjectLocation) ? "Not specified" : NewProjectForm.ProjectLocation,
+                SubmittedByClient = string.IsNullOrWhiteSpace(NewProjectForm.Client) ? "Internal" : NewProjectForm.Client,
+                ProjectType = NewProjectForm.ProjectType,
+                BuildingCategory = NewProjectForm.BuildingCategory,
+                Status = ProposalStatus.Approved, // Manager-created projects are already approved/published.
+                SubmittedOn = DateTime.Now
+            };
+
+            ProposalStore.Instance.Proposals.Insert(0, project);
+
+            IsAddProjectDialogOpen = false;
+        }
+
+        private void ExecuteViewProjectDetail(object? parameter)
+        {
+            if (parameter is ProjectProposal proposal)
+            {
+                SelectedProjectForDetail = proposal;
+            }
         }
     }
 }

@@ -37,8 +37,14 @@ namespace BrickByBrick.Services
                 Location = "Riverside District, Block 12",
                 Status = ProposalStatus.Approved,
                 AssignedEmployee = "Carlo Santos",
-                SubmittedOn = DateTime.Now.AddDays(-18)
+                SubmittedOn = DateTime.Now.AddDays(-18),
+                Phase = "Structural Framing",
+                ProjectType = ProjectType.Commercial,
+                BuildingCategory = BuildingCategory.Office,
+                ImagePlaceholderEmoji = "🏢"
             };
+            riverside.Team.Add("Marcus Villar");
+            riverside.Team.Add("Carlo Santos");
             riverside.ProgressUpdates.Add(new ProgressUpdate { Note = "Foundation work completed and inspected.", PostedBy = "Carlo Santos", PostedOn = DateTime.Now.AddDays(-10), PercentComplete = 25 });
             riverside.ProgressUpdates.Add(new ProgressUpdate { Note = "Structural framing underway on floors 1-4.", PostedBy = "Carlo Santos", PostedOn = DateTime.Now.AddDays(-3), PercentComplete = 45 });
             Proposals.Add(riverside);
@@ -51,8 +57,14 @@ namespace BrickByBrick.Services
                 Location = "Harborview Complex, Building C",
                 Status = ProposalStatus.Approved,
                 AssignedEmployee = "Carlo Santos",
-                SubmittedOn = DateTime.Now.AddDays(-30)
+                SubmittedOn = DateTime.Now.AddDays(-30),
+                Phase = "Interior Finishing",
+                ProjectType = ProjectType.Renovation,
+                BuildingCategory = BuildingCategory.ShoppingMall,
+                ImagePlaceholderEmoji = "🏬"
             };
+            harborview.Team.Add("Lea Fernandez");
+            harborview.Team.Add("Carlo Santos");
             harborview.ProgressUpdates.Add(new ProgressUpdate { Note = "Demolition of old lobby fixtures complete.", PostedBy = "Carlo Santos", PostedOn = DateTime.Now.AddDays(-20), PercentComplete = 15 });
             harborview.ProgressUpdates.Add(new ProgressUpdate { Note = "New flooring installed, lighting fixtures next.", PostedBy = "Carlo Santos", PostedOn = DateTime.Now.AddDays(-6), PercentComplete = 60 });
             Proposals.Add(harborview);
@@ -65,8 +77,13 @@ namespace BrickByBrick.Services
                 Location = "Site B — Foundation Crew",
                 Status = ProposalStatus.Approved,
                 AssignedEmployee = "Carlo Santos",
-                SubmittedOn = DateTime.Now.AddDays(-5)
+                SubmittedOn = DateTime.Now.AddDays(-5),
+                Phase = "Inspection",
+                ProjectType = ProjectType.Industrial,
+                BuildingCategory = BuildingCategory.Warehouse,
+                ImagePlaceholderEmoji = "🏗"
             };
+            crane.Team.Add("Carlo Santos");
             crane.ProgressUpdates.Add(new ProgressUpdate { Note = "Initial inspection complete, parts on order.", PostedBy = "Carlo Santos", PostedOn = DateTime.Now.AddDays(-1), PercentComplete = 30 });
             Proposals.Add(crane);
 

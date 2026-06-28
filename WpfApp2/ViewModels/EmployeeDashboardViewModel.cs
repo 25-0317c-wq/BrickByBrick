@@ -55,6 +55,18 @@ namespace BrickByBrick.ViewModels
 
         public ICommand PostUpdateCommand { get; }
         public ICommand SelectProjectCommand { get; }
+        public ICommand ViewFullDetailCommand { get; }
+
+        // -----------------------------------------------------------------
+        // Project detail navigation — set when "View Full Details" is
+        // clicked, read by the hosting shell window to swap to ProjectDetailView.
+        // -----------------------------------------------------------------
+        private ProjectProposal? _selectedProjectForDetail;
+        public ProjectProposal? SelectedProjectForDetail
+        {
+            get => _selectedProjectForDetail;
+            set { _selectedProjectForDetail = value; OnPropertyChanged(); }
+        }
 
         public int ActiveProjectCount => AssignedProjects.Count(p => p.Status == ProposalStatus.Approved);
 
@@ -81,6 +93,7 @@ namespace BrickByBrick.ViewModels
 
             PostUpdateCommand = new RelayCommand(_ => ExecutePostUpdate());
             SelectProjectCommand = new RelayCommand(ExecuteSelectProject);
+            ViewFullDetailCommand = new RelayCommand(_ => ExecuteViewFullDetail());
         }
 
         private readonly System.Collections.Generic.HashSet<ProjectProposal> _watchedProposals = new();
@@ -136,6 +149,14 @@ namespace BrickByBrick.ViewModels
             if (parameter is ProjectProposal project)
             {
                 SelectedProject = project;
+            }
+        }
+
+        private void ExecuteViewFullDetail()
+        {
+            if (SelectedProject != null)
+            {
+                SelectedProjectForDetail = SelectedProject;
             }
         }
 

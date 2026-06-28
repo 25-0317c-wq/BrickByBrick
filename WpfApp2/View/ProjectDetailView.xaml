@@ -1,0 +1,245 @@
+﻿<UserControl x:Class="BrickByBrick.View.ProjectDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:BrickByBrick.View"
+             mc:Ignorable="d"
+             d:DesignHeight="780" d:DesignWidth="1200"
+             Background="{StaticResource BackgroundBrush}">
+
+    <UserControl.Resources>
+
+        <Style x:Key="PanelCard" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="BorderBrush" Value="{StaticResource OutlineBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="12" Direction="270" ShadowDepth="2" Color="#1B2A41" Opacity="0.06"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="StatusPillBase" TargetType="Border">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="10,4"/>
+        </Style>
+
+        <Style x:Key="BackLinkButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource SteelBlueGrayBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="12.5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="32,24,32,28">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- ============================================================ -->
+            <!--  BACK LINK + HEADER                                           -->
+            <!-- ============================================================ -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,18">
+                <Button Content="← Back to projects" Style="{StaticResource BackLinkButton}"
+                        Click="BackButton_Click" HorizontalAlignment="Left" Margin="0,0,0,14"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{Binding Project.Title}" Style="{StaticResource HeadlineText}"/>
+                        <TextBlock Text="{Binding Project.Description}" Style="{StaticResource SubtitleText}"
+                                   Margin="0,6,0,0" TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <Border Grid.Column="1" VerticalAlignment="Top">
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource StatusPillBase}">
+                                <Setter Property="Background" Value="{StaticResource Sdg9OrangeBrush}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Project.Status}" Value="Approved">
+                                        <Setter Property="Background" Value="{StaticResource RoleEmployeeBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Project.Status}" Value="Rejected">
+                                        <Setter Property="Background" Value="{StaticResource RoleAdminBrush}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock Text="{Binding Project.Status}" FontSize="11" FontWeight="Bold" Foreground="White"/>
+                    </Border>
+                </Grid>
+            </StackPanel>
+
+            <!-- ============================================================ -->
+            <!--  MAIN CONTENT: chart + details (left) | image/location/team (right) -->
+            <!-- ============================================================ -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="320"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+
+                    <!-- Progress-over-time chart -->
+                    <Border Style="{StaticResource PanelCard}" Margin="0,0,0,16">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,14">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="PROGRESS OVER TIME" Style="{StaticResource SectionLabelText}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Project.OverallPercentComplete, StringFormat='{}{0}% complete'}"
+                                           FontSize="12" FontWeight="Bold" Foreground="{StaticResource RoleEmployeeBrush}"/>
+                            </Grid>
+
+                            <local:ProgressChartControl x:Name="ProgressChart" Height="220"
+                                                        Points="{Binding ChartPoints}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Project details -->
+                    <Border Style="{StaticResource PanelCard}" Margin="0,0,0,16">
+                        <StackPanel>
+                            <TextBlock Text="PROJECT DETAILS" Style="{StaticResource SectionLabelText}" Margin="0,0,0,14"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="16"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0" Grid.Column="0">
+                                    <TextBlock Text="PHASE" FontSize="10" FontWeight="Bold" Foreground="{StaticResource SteelBlueGrayBrush}"/>
+                                    <TextBlock Text="{Binding Project.Phase}" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,3,0,0"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1">
+                                    <TextBlock Text="PROJECT TYPE" FontSize="10" FontWeight="Bold" Foreground="{StaticResource SteelBlueGrayBrush}"/>
+                                    <TextBlock Text="{Binding ProjectTypeLabel}" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,3,0,0"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="2" Grid.Column="0">
+                                    <TextBlock Text="BUILDING TYPE" FontSize="10" FontWeight="Bold" Foreground="{StaticResource SteelBlueGrayBrush}"/>
+                                    <TextBlock Text="{Binding BuildingCategoryLabel}" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,3,0,0"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="1">
+                                    <TextBlock Text="SUBMITTED BY" FontSize="10" FontWeight="Bold" Foreground="{StaticResource SteelBlueGrayBrush}"/>
+                                    <TextBlock Text="{Binding Project.SubmittedByClient}" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,3,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Progress log -->
+                    <Border Style="{StaticResource PanelCard}">
+                        <StackPanel>
+                            <TextBlock Text="PROGRESS LOG" Style="{StaticResource SectionLabelText}" Margin="0,0,0,12"/>
+                            <ItemsControl ItemsSource="{Binding Project.ProgressUpdates}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{StaticResource BackgroundBrush}" CornerRadius="8"
+                                                Padding="12,10" Margin="0,0,0,8">
+                                            <StackPanel>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="{Binding PostedBy}" FontSize="12"
+                                                               FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding PercentComplete, StringFormat='{}{0}%'}"
+                                                               FontSize="11" FontWeight="Bold" Foreground="{StaticResource RoleEmployeeBrush}"/>
+                                                </Grid>
+                                                <TextBlock Text="{Binding Note}" FontSize="12.5" TextWrapping="Wrap"
+                                                           Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,4"/>
+                                                <TextBlock Text="{Binding PostedOn, StringFormat='MMM d, yyyy — h:mm tt'}"
+                                                           FontSize="10" Foreground="#94A3B8"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Right column: image, location, team -->
+                <StackPanel Grid.Column="2">
+
+                    <!-- Project image placeholder -->
+                    <Border Style="{StaticResource PanelCard}" Margin="0,0,0,16" Padding="0" Height="160">
+                        <Border CornerRadius="12" Background="{StaticResource SteelNavyBrush}">
+                            <TextBlock Text="{Binding Project.ImagePlaceholderEmoji}" FontSize="56"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Border>
+
+                    <!-- Location -->
+                    <Border Style="{StaticResource PanelCard}" Margin="0,0,0,16">
+                        <StackPanel>
+                            <TextBlock Text="LOCATION" Style="{StaticResource SectionLabelText}" Margin="0,0,0,8"/>
+                            <TextBlock Text="{Binding Project.Location}" FontSize="13.5"
+                                       Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Team -->
+                    <Border Style="{StaticResource PanelCard}">
+                        <StackPanel>
+                            <TextBlock Text="PROJECT TEAM" Style="{StaticResource SectionLabelText}" Margin="0,0,0,12"/>
+                            <ItemsControl ItemsSource="{Binding Project.Team}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                            <Border Width="30" Height="30" CornerRadius="15" Background="{StaticResource SteelNavySoftBrush}">
+                                                <TextBlock Text="{Binding Converter={x:Static local:NameToInitialsConverter.Instance}}"
+                                                           Foreground="White" FontSize="10.5" FontWeight="Bold"
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding}" FontSize="12.5" Foreground="{StaticResource TextPrimaryBrush}"
+                                                       VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <TextBlock Text="No team assigned yet." FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"
+                                       Visibility="{Binding Project.Team.Count, Converter={x:Static local:ZeroCountToVisibilityConverter.Instance}}"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

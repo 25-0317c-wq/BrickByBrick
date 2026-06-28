@@ -17,6 +17,32 @@ namespace BrickByBrick.Models
     }
 
     /// <summary>
+    /// Broad category of construction work, set when a project is created.
+    /// </summary>
+    public enum ProjectType
+    {
+        Commercial,
+        Residential,
+        Industrial,
+        Renovation,
+        Infrastructure
+    }
+
+    /// <summary>
+    /// The kind of building/structure the project concerns.
+    /// </summary>
+    public enum BuildingCategory
+    {
+        Office,
+        ShoppingMall,
+        Hotel,
+        RetailStore,
+        ShoppingCenter,
+        Residential,
+        Warehouse
+    }
+
+    /// <summary>
     /// A single progress update posted by an Employee against an approved project.
     /// Shown to the Client as visibility into work being done.
     /// </summary>
@@ -51,6 +77,25 @@ namespace BrickByBrick.Models
         public string SubmittedByClient { get; set; } = string.Empty;
         public string Location { get; set; } = string.Empty;
         public DateTime SubmittedOn { get; set; } = DateTime.Now;
+
+        /// <summary>Current phase label, e.g. "Foundation", "Framing", "Finishing".</summary>
+        public string Phase { get; set; } = "Planning";
+
+        public ProjectType ProjectType { get; set; } = ProjectType.Commercial;
+        public BuildingCategory BuildingCategory { get; set; } = BuildingCategory.Office;
+
+        /// <summary>
+        /// Team members working on this project (names only, for now).
+        /// The AssignedEmployee is always included; this allows for future
+        /// multi-person teams without changing the approval/assignment flow.
+        /// </summary>
+        public ObservableCollection<string> Team { get; } = new ObservableCollection<string>();
+
+        /// <summary>
+        /// Placeholder for a project image. No real image upload yet —
+        /// this is an emoji/icon used as a stand-in visual on the detail view.
+        /// </summary>
+        public string ImagePlaceholderEmoji { get; set; } = "🏗";
 
         private ProposalStatus _status = ProposalStatus.Pending;
         public ProposalStatus Status
@@ -96,4 +141,5 @@ namespace BrickByBrick.Models
         }
     }
 }
+
 

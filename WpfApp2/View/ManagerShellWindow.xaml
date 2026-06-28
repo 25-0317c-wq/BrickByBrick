@@ -43,7 +43,7 @@
             </Grid>
         </Border>
 
-        <!-- Dashboard content -->
-        <local:ManagerDashboardView Grid.Row="1"/>
+        <!-- Content host — swaps between the dashboard and ProjectDetailView -->
+        <ContentControl x:Name="ContentHost" Grid.Row="1"/>
     </Grid>
 </Window>

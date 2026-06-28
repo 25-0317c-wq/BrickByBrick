@@ -144,11 +144,28 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <StackPanel Grid.Row="0" Margin="0,0,0,18">
-                            <TextBlock Text="{Binding SelectedProject.Title}" Style="{StaticResource HeadlineText}" FontSize="20"/>
-                            <TextBlock Text="{Binding SelectedProject.Description}" Style="{StaticResource SubtitleText}" Margin="0,6,0,0"
-                                       TextWrapping="Wrap"/>
-                        </StackPanel>
+                        <Grid Grid.Row="0" Margin="0,0,0,18">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="{Binding SelectedProject.Title}" Style="{StaticResource HeadlineText}" FontSize="20"/>
+                                <TextBlock Text="{Binding SelectedProject.Description}" Style="{StaticResource SubtitleText}" Margin="0,6,0,0"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Content="View Full Details" Command="{Binding ViewFullDetailCommand}"
+                                    VerticalAlignment="Top" Height="34" Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{StaticResource SteelNavyBrush}" CornerRadius="7" Padding="14,0">
+                                            <TextBlock Text="View Full Details" FontSize="11.5" FontWeight="SemiBold" Foreground="White"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
 
                         <Grid Grid.Row="1" Margin="0,0,0,20">
                             <Grid.ColumnDefinitions>

@@ -171,7 +171,7 @@
                     <Style TargetType="ContentControl">
                         <Setter Property="Content">
                             <Setter.Value>
-                                    <local:AdminOverviewView/>
+                                <local:AdminOverviewView/>
                             </Setter.Value>
                         </Setter>
                         <Style.Triggers>
@@ -185,11 +185,7 @@
                             <DataTrigger Binding="{Binding ActiveSection}" Value="Projects">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Background="{StaticResource BackgroundBrush}">
-                                            <TextBlock Text="Projects view — coming soon" FontSize="14"
-                                                       Foreground="{StaticResource TextSecondaryBrush}"
-                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
+                                        <local:AdminProjectsView/>
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
