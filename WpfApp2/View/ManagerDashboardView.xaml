@@ -1,0 +1,419 @@
+﻿<UserControl x:Class="BrickByBrick.View.ManagerDashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:BrickByBrick.View"
+             mc:Ignorable="d"
+             d:DesignHeight="760" d:DesignWidth="1200"
+             Background="{StaticResource BackgroundBrush}">
+
+    <UserControl.Resources>
+
+        <Style x:Key="StatChip" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="BorderBrush" Value="{StaticResource OutlineBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="ProposalCard" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="18,16"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+            <Setter Property="BorderBrush" Value="{StaticResource OutlineBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="2" Color="#1B2A41" Opacity="0.06"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ApproveBtn" TargetType="Button">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{StaticResource RoleEmployeeBrush}" CornerRadius="7" Padding="16,0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="RejectBtn" TargetType="Button">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{StaticResource SurfaceBrush}" CornerRadius="7" Padding="16,0"
+                                BorderBrush="{StaticResource RoleAdminBrush}" BorderThickness="1.3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="StatusPillBase" TargetType="Border">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="9,3"/>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid Margin="32,28,32,28">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- ============================================================ -->
+            <!--  HEADER                                                       -->
+            <!-- ============================================================ -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,22">
+                <TextBlock Text="Project Approvals" Style="{StaticResource HeadlineText}"/>
+                <TextBlock Text="Review client proposals and manage approved projects."
+                           Style="{StaticResource SubtitleText}" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <!-- ============================================================ -->
+            <!--  STAT CHIPS                                                   -->
+            <!-- ============================================================ -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,22">
+                <Border Style="{StaticResource StatChip}" Margin="0,0,12,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="8" Height="8" CornerRadius="4" Background="{StaticResource Sdg9OrangeBrush}"
+                                VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="{Binding PendingCount}" FontSize="15" FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Text=" Pending" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource StatChip}" Margin="0,0,12,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="8" Height="8" CornerRadius="4" Background="{StaticResource RoleEmployeeBrush}"
+                                VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="{Binding ApprovedCount}" FontSize="15" FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Text=" Approved" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource StatChip}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="8" Height="8" CornerRadius="4" Background="{StaticResource RoleAdminBrush}"
+                                VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="{Binding RejectedCount}" FontSize="15" FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Text=" Rejected" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- ============================================================ -->
+            <!--  TWO COLUMNS: Pending queue (left) + Approved/Rejected (right) -->
+            <!-- ============================================================ -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="380"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Pending approval queue -->
+                <Border Grid.Column="0" Background="{StaticResource SurfaceBrush}" CornerRadius="12"
+                        BorderBrush="{StaticResource OutlineBrush}" BorderThickness="1">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="12" Direction="270" ShadowDepth="2" Color="#1B2A41" Opacity="0.06"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="PENDING APPROVAL" Style="{StaticResource SectionLabelText}"
+                                   Margin="20,18,20,12"/>
+                        <Separator Grid.Row="0" VerticalAlignment="Bottom" Background="{StaticResource OutlineBrush}"/>
+
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="20,14,20,14">
+                            <ItemsControl ItemsSource="{Binding PendingProposals}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource ProposalCard}">
+                                            <StackPanel>
+                                                <Grid Margin="0,0,0,6">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="{Binding Title}" FontSize="14"
+                                                               FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"
+                                                               TextWrapping="Wrap"/>
+                                                    <Border Grid.Column="1" Style="{StaticResource StatusPillBase}"
+                                                            Background="{StaticResource Sdg9OrangeBrush}" Margin="8,0,0,0">
+                                                        <TextBlock Text="Pending" FontSize="9.5" FontWeight="Bold" Foreground="White"/>
+                                                    </Border>
+                                                </Grid>
+
+                                                <TextBlock Text="{Binding Description}" FontSize="12.5" TextWrapping="Wrap"
+                                                           Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,10"/>
+
+                                                <Grid Margin="0,0,0,14">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Grid.Column="0">
+                                                        <TextBlock Text="SUBMITTED BY" FontSize="10" FontWeight="Bold"
+                                                                   Foreground="{StaticResource SteelBlueGrayBrush}"/>
+                                                        <TextBlock Text="{Binding SubmittedByClient}" FontSize="12"
+                                                                   Foreground="{StaticResource TextPrimaryBrush}" Margin="0,2,0,0"/>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="1">
+                                                        <TextBlock Text="LOCATION" FontSize="10" FontWeight="Bold"
+                                                                   Foreground="{StaticResource SteelBlueGrayBrush}"/>
+                                                        <TextBlock Text="{Binding Location}" FontSize="12" TextWrapping="Wrap"
+                                                                   Foreground="{StaticResource TextPrimaryBrush}" Margin="0,2,0,0"/>
+                                                    </StackPanel>
+                                                </Grid>
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="10"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Button Grid.Column="0" Content="Approve" Style="{StaticResource ApproveBtn}"
+                                                            Foreground="White" FontWeight="Bold" FontSize="12.5"
+                                                            Command="{Binding DataContext.ApproveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            CommandParameter="{Binding}"/>
+                                                    <Button Grid.Column="2" Content="Reject" Style="{StaticResource RejectBtn}"
+                                                            Foreground="{StaticResource RoleAdminBrush}" FontWeight="SemiBold"
+                                                            Command="{Binding DataContext.RejectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            CommandParameter="{Binding}"/>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+
+                <!-- Approved + Rejected lists -->
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="16"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Approved -->
+                    <Border Grid.Row="0" Background="{StaticResource SurfaceBrush}" CornerRadius="12"
+                            BorderBrush="{StaticResource OutlineBrush}" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="12" Direction="270" ShadowDepth="2" Color="#1B2A41" Opacity="0.06"/>
+                        </Border.Effect>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="APPROVED PROJECTS" Style="{StaticResource SectionLabelText}"
+                                       Margin="18,16,18,10"/>
+                            <Separator Grid.Row="0" VerticalAlignment="Bottom" Background="{StaticResource OutlineBrush}"/>
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="18,10,18,10">
+                                <ItemsControl ItemsSource="{Binding ApprovedProjects}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="{StaticResource BackgroundBrush}" CornerRadius="8"
+                                                    Padding="12,10" Margin="0,0,0,8">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Title}" FontSize="12.5" FontWeight="Bold"
+                                                               Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap"/>
+                                                    <TextBlock Text="{Binding SubmittedByClient}" FontSize="11"
+                                                               Foreground="{StaticResource TextSecondaryBrush}" Margin="0,3,0,2"/>
+                                                    <TextBlock Text="{Binding AssignedEmployee, StringFormat='Assigned to {0}'}" FontSize="10.5"
+                                                               Foreground="{StaticResource SteelBlueGrayBrush}" Margin="0,0,0,6"/>
+                                                    <TextBlock Text="{Binding OverallPercentComplete, StringFormat='{}{0}% complete'}"
+                                                               FontSize="10.5" FontWeight="SemiBold"
+                                                               Foreground="{StaticResource RoleEmployeeBrush}"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+
+                    <!-- Rejected -->
+                    <Border Grid.Row="2" Background="{StaticResource SurfaceBrush}" CornerRadius="12"
+                            BorderBrush="{StaticResource OutlineBrush}" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="12" Direction="270" ShadowDepth="2" Color="#1B2A41" Opacity="0.06"/>
+                        </Border.Effect>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="REJECTED PROPOSALS" Style="{StaticResource SectionLabelText}"
+                                       Margin="18,16,18,10"/>
+                            <Separator Grid.Row="0" VerticalAlignment="Bottom" Background="{StaticResource OutlineBrush}"/>
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="18,10,18,10">
+                                <ItemsControl ItemsSource="{Binding RejectedProposals}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="{StaticResource BackgroundBrush}" CornerRadius="8"
+                                                    Padding="12,10" Margin="0,0,0,8">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Title}" FontSize="12.5" FontWeight="Bold"
+                                                               Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap"/>
+                                                    <TextBlock Text="{Binding SubmittedByClient}" FontSize="11"
+                                                               Foreground="{StaticResource TextSecondaryBrush}" Margin="0,3,0,0"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <!-- ============================================================ -->
+        <!--  APPROVE CONFIRMATION DIALOG (modal overlay)                 -->
+        <!-- ============================================================ -->
+        <Grid Visibility="{Binding IsApproveDialogOpen, Converter={x:Static local:BoolToVisibilityConverter.Instance}}">
+            <Border Background="#13202F" Opacity="0.45"/>
+            <Border Background="{StaticResource SurfaceBrush}" CornerRadius="14" Padding="28,24"
+                    Width="420" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="26" Direction="270" ShadowDepth="6" Color="#13202F" Opacity="0.3"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="Approve Proposal" Style="{StaticResource HeadlineText}" FontSize="18"/>
+                    <TextBlock Text="{Binding ProposalPendingApproval.Title, StringFormat='Approving &quot;{0}&quot;. Assign an employee to begin work.'}"
+                               Style="{StaticResource SubtitleText}" Margin="0,4,0,16" TextWrapping="Wrap"/>
+
+                    <TextBlock Text="ASSIGN EMPLOYEE" Style="{StaticResource SectionLabelText}" Margin="0,0,0,6"/>
+                    <ComboBox ItemsSource="{Binding AvailableEmployees}"
+                              SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
+                              DisplayMemberPath="FullName"
+                              Height="38" FontSize="13" Padding="8,0,0,0"
+                              VerticalContentAlignment="Center" Margin="0,0,0,22"
+                              BorderBrush="{StaticResource OutlineBrush}"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Content="Cancel" Command="{Binding CancelApproveCommand}" Height="40" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{StaticResource BackgroundBrush}" CornerRadius="8"
+                                            BorderBrush="{StaticResource OutlineBrush}" BorderThickness="1">
+                                        <TextBlock Text="Cancel" FontSize="12.5" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button Grid.Column="2" Content="Confirm Approve" Command="{Binding ConfirmApproveCommand}" Height="40" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{StaticResource RoleEmployeeBrush}" CornerRadius="8">
+                                        <TextBlock Text="Confirm Approve" FontSize="12.5" FontWeight="Bold" Foreground="White"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- ============================================================ -->
+        <!--  REJECT CONFIRMATION DIALOG (modal overlay)                  -->
+        <!-- ============================================================ -->
+        <Grid Visibility="{Binding IsRejectDialogOpen, Converter={x:Static local:BoolToVisibilityConverter.Instance}}">
+            <Border Background="#13202F" Opacity="0.45"/>
+            <Border Background="{StaticResource SurfaceBrush}" CornerRadius="14" Padding="28,24"
+                    Width="400" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="26" Direction="270" ShadowDepth="6" Color="#13202F" Opacity="0.3"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="Reject Proposal" Style="{StaticResource HeadlineText}" FontSize="18"/>
+                    <TextBlock Text="Optionally add a reason. The client will see this proposal marked as rejected."
+                               Style="{StaticResource SubtitleText}" Margin="0,4,0,16" TextWrapping="Wrap"/>
+
+                    <TextBox Text="{Binding RejectReason, UpdateSourceTrigger=PropertyChanged}"
+                             Height="70" Padding="10,8" FontSize="12.5" TextWrapping="Wrap"
+                             AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                             BorderBrush="{StaticResource OutlineBrush}" BorderThickness="1" Margin="0,0,0,20"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Content="Cancel" Command="{Binding CancelRejectCommand}" Height="40" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{StaticResource BackgroundBrush}" CornerRadius="8"
+                                            BorderBrush="{StaticResource OutlineBrush}" BorderThickness="1">
+                                        <TextBlock Text="Cancel" FontSize="12.5" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button Grid.Column="2" Content="Confirm Reject" Command="{Binding ConfirmRejectCommand}" Height="40" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{StaticResource RoleAdminBrush}" CornerRadius="8">
+                                        <TextBlock Text="Confirm Reject" FontSize="12.5" FontWeight="Bold" Foreground="White"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -251,7 +251,13 @@
                     <PasswordBox x:Name="PasswordBox" Style="{StaticResource MaterialPasswordField}" Margin="0,0,0,22"/>
 
                     <!-- Sign in button -->
-                    <Button Content="Sign In" Style="{StaticResource PrimarySignInButton}" Margin="0,0,0,16"/>
+                    <Button x:Name="SignInButton" Content="Sign In" Style="{StaticResource PrimarySignInButton}"
+                            Margin="0,0,0,12" Click="SignInButton_Click"/>
+
+                    <!-- Inline login error message (hidden until a failed attempt) -->
+                    <TextBlock x:Name="LoginErrorText" Text="Incorrect email or password. Please try again."
+                               FontSize="11.5" FontWeight="SemiBold" Foreground="{StaticResource RoleAdminBrush}"
+                               TextWrapping="Wrap" Margin="0,0,0,12" Visibility="Collapsed"/>
 
                     <!-- Divider -->
                     <Grid Margin="0,0,0,16">

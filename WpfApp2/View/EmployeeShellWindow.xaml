@@ -1,0 +1,49 @@
+﻿<Window x:Class="BrickByBrick.View.EmployeeShellWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BrickByBrick.View"
+        mc:Ignorable="d"
+        Title="BrickByBrick — Field Employee" Height="760" Width="1280"
+        Background="{StaticResource BackgroundBrush}"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Simple top bar -->
+        <Border Grid.Row="0" Background="{StaticResource SteelNavyBrush}" Padding="28,14">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Grid Width="24" Height="24">
+                        <Path Data="M4,12 L12,8 L20,12 L20,20 L12,24 L4,20 Z"
+                              Fill="{StaticResource Sdg9OrangeBrush}" Opacity="0.95"/>
+                    </Grid>
+                    <TextBlock Text="BrickByBrick" Foreground="White" FontWeight="Bold"
+                               FontSize="15" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Border Width="30" Height="30" CornerRadius="15" Background="{StaticResource RoleEmployeeBrush}">
+                        <TextBlock Text="CS" Foreground="White" FontSize="10.5" FontWeight="Bold"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="Carlo Santos" Foreground="White" FontSize="12" FontWeight="SemiBold"/>
+                        <TextBlock Text="Field Employee" Foreground="#8694A8" FontSize="10"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Dashboard content -->
+        <local:EmployeeDashboardView Grid.Row="1"/>
+    </Grid>
+</Window>

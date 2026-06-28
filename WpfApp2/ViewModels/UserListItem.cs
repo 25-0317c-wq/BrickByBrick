@@ -14,6 +14,13 @@ namespace BrickByBrick.ViewModels
         public string Department { get; set; } = string.Empty;
         public string InitialsBadge { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Plain-text for now since this is local dummy data with no real
+        /// persistence or security layer yet. Replace with a proper hashed
+        /// credential check before this app handles real accounts.
+        /// </summary>
+        public string Password { get; set; } = string.Empty;
+
         private UserRole _role;
         public UserRole Role
         {
