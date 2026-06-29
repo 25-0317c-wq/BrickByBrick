@@ -32,7 +32,7 @@ namespace BrickByBrick.Services
             Users.Add(new UserListItem { FullName = "Lea Fernandez", Email = "lea.fernandez@brickbybrick.com", Department = "Site Engineering", InitialsBadge = "LF", Role = UserRole.Manager, IsActive = true, Password = demoPassword });
             Users.Add(new UserListItem { FullName = "Carlo Santos", Email = "carlo.santos@brickbybrick.com", Department = "Field Crew", InitialsBadge = "CS", Role = UserRole.Employee, IsActive = true, Password = demoPassword });
             Users.Add(new UserListItem { FullName = "Joy Dimaculangan", Email = "joy.dimaculangan@brickbybrick.com", Department = "Field Crew", InitialsBadge = "JD", Role = UserRole.Employee, IsActive = true, Password = demoPassword });
-            Users.Add(new UserListItem { FullName = "Rafael Cruz", Email = "rafael.cruz@brickbybrick.com", Department = "Field Crew", InitialsBadge = "RC", Role = UserRole.Employee, IsActive = false, Password = demoPassword });
+            Users.Add(new UserListItem { FullName = "Rafael Cruz", Email = "rafael.cruz@brickbybrick.com", Department = "Field Crew", InitialsBadge = "RC", Role = UserRole.Employee, IsActive = true, Password = demoPassword });
             Users.Add(new UserListItem { FullName = "Amelia Tan", Email = "amelia.tan@stonepeakdev.com", Department = "External Partner", InitialsBadge = "AT", Role = UserRole.Client, IsActive = true, Password = demoPassword });
             Users.Add(new UserListItem { FullName = "Brian Lo", Email = "brian.lo@harborbuild.com", Department = "External Partner", InitialsBadge = "BL", Role = UserRole.Client, IsActive = true, Password = demoPassword });
         }

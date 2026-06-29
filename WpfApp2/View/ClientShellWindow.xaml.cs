@@ -12,5 +12,10 @@ namespace BrickByBrick.View
         {
             InitializeComponent();
         }
+
+        private void SignOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            SessionHelper.SignOut(this);
+        }
     }
 }

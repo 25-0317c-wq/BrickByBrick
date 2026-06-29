@@ -35,10 +35,26 @@
                         <TextBlock Text="CS" Foreground="White" FontSize="10.5" FontWeight="Bold"
                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
-                    <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                    <StackPanel Margin="10,0,16,0" VerticalAlignment="Center">
                         <TextBlock Text="Carlo Santos" Foreground="White" FontSize="12" FontWeight="SemiBold"/>
                         <TextBlock Text="Field Employee" Foreground="#8694A8" FontSize="10"/>
                     </StackPanel>
+                    <Button Content="Sign Out" Click="SignOutButton_Click" Height="32" Cursor="Hand"
+                            VerticalAlignment="Center" FontSize="11.5" FontWeight="SemiBold" Foreground="White">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="#22324A" CornerRadius="7" Padding="14,0"
+                                        BorderBrush="#33455F" BorderThickness="1">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.85"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </StackPanel>
             </Grid>
         </Border>

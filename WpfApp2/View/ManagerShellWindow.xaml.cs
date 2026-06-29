@@ -25,6 +25,11 @@ namespace BrickByBrick.View
             ContentHost.Content = _dashboardView;
         }
 
+        private void SignOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            SessionHelper.SignOut(this);
+        }
+
         private void DashboardViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(ManagerDashboardViewModel.SelectedProjectForDetail))

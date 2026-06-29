@@ -73,5 +73,10 @@ namespace BrickByBrick.View
 
             ContentHost.Content = detailView;
         }
+
+        private void SignOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            SessionHelper.SignOut(this);
+        }
     }
 }

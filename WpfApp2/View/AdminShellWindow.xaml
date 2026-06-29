@@ -148,7 +148,7 @@
                 <!-- Footer -->
                 <StackPanel Grid.Row="2" Margin="20,0,20,20">
                     <Separator Background="#33455F" Margin="0,0,0,12"/>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                         <Border Width="32" Height="32" CornerRadius="16" Background="{StaticResource Sdg9OrangeBrush}">
                             <TextBlock Text="DR" Foreground="White" FontSize="11" FontWeight="Bold"
                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -158,6 +158,22 @@
                             <TextBlock Text="Administrator" Foreground="#8694A8" FontSize="10.5"/>
                         </StackPanel>
                     </StackPanel>
+                    <Button Content="Sign Out" Click="SignOutButton_Click" Height="34" Cursor="Hand"
+                            HorizontalAlignment="Stretch" FontSize="12" FontWeight="SemiBold" Foreground="White">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="#22324A" CornerRadius="7"
+                                        BorderBrush="#33455F" BorderThickness="1">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.85"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </StackPanel>
             </Grid>
         </Border>
