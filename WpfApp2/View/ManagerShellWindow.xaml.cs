@@ -44,7 +44,7 @@ namespace BrickByBrick.View
 
         private void ShowProjectDetail(ProjectProposal project)
         {
-            var detailView = new ProjectDetailView(project);
+            var detailView = new ProjectDetailView(project, currentViewerName: "Marcus Villar", canManageDocuments: true);
             detailView.BackRequested += (s, e) =>
             {
                 _dashboardViewModel.SelectedProjectForDetail = null;

@@ -55,6 +55,29 @@ namespace BrickByBrick.Models
     }
 
     /// <summary>
+    /// A single document attached to a project (uploaded by Employee/Manager/Admin).
+    /// Everyone with access to the project's detail view can see and open it;
+    /// only Employee-or-higher can upload or remove. Files are copied into a
+    /// local per-project folder for now — no database/cloud storage yet.
+    /// </summary>
+    public class ProjectDocument
+    {
+        public string FileName { get; set; } = string.Empty;
+
+        /// <summary>Full path to the stored copy of the file on disk.</summary>
+        public string StoredFilePath { get; set; } = string.Empty;
+
+        public string UploadedBy { get; set; } = string.Empty;
+        public DateTime UploadedOn { get; set; } = DateTime.Now;
+
+        /// <summary>File size in bytes, for display (e.g. "240 KB").</summary>
+        public long FileSizeBytes { get; set; }
+
+        public string FileExtension =>
+            System.IO.Path.GetExtension(FileName).TrimStart('.').ToUpperInvariant();
+    }
+
+    /// <summary>
     /// Shared project proposal record used by Client (submission/tracking),
     /// Manager (approval queue), and Employee (work view) dashboards.
     /// Implements INotifyPropertyChanged so that when one dashboard changes
@@ -122,6 +145,47 @@ namespace BrickByBrick.Models
         }
 
         public ObservableCollection<ProgressUpdate> ProgressUpdates { get; } = new ObservableCollection<ProgressUpdate>();
+
+        /// <summary>
+        /// Files attached to this project. Visible to everyone with access to
+        /// the project's detail view; upload/remove is restricted to
+        /// Employee-or-higher at the UI layer (this collection itself has no
+        /// permission logic — that lives in ProjectDetailView).
+        /// </summary>
+        public ObservableCollection<ProjectDocument> Documents { get; } = new ObservableCollection<ProjectDocument>();
+
+        /// <summary>
+        /// Parsed fiscal data from the most recently uploaded CSV, if any.
+        /// Null until someone drops a CSV file into the Financial Chart space.
+        /// </summary>
+        private FiscalChartData? _financialChartData;
+        public FiscalChartData? FinancialChartData
+        {
+            get => _financialChartData;
+            set
+            {
+                _financialChartData = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// URL of the rendered QuickChart image for FinancialChartData, once
+        /// generated. Null until the upload+render step completes.
+        /// </summary>
+        private string? _financialChartImageUrl;
+        public string? FinancialChartImageUrl
+        {
+            get => _financialChartImageUrl;
+            set
+            {
+                _financialChartImageUrl = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasFinancialChart));
+            }
+        }
+
+        public bool HasFinancialChart => !string.IsNullOrEmpty(FinancialChartImageUrl);
 
         public ProjectProposal()
         {

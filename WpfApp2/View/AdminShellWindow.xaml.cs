@@ -61,7 +61,7 @@ namespace BrickByBrick.View
 
         private void ShowProjectDetail(ProjectProposal project, AdminProjectsView returnToView)
         {
-            var detailView = new ProjectDetailView(project);
+            var detailView = new ProjectDetailView(project, currentViewerName: "Dana Reyes", canManageDocuments: true);
             detailView.BackRequested += (s, e) =>
             {
                 if (returnToView.DataContext is AdminProjectsViewModel vm)
