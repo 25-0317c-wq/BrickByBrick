@@ -8,37 +8,25 @@ namespace BrickByBrick.ViewModels
 {
     public class AdminDashboardViewModel : BaseViewModel
     {
-        // -----------------------------------------------------------------
-        // 1. User List — shared across the whole app via UserStore.
-        //    Any change here (role updates, new users) is visible to every
-        //    other ViewModel that reads from UserStore.Instance.Users.
-        // -----------------------------------------------------------------
+
         public ObservableCollection<UserListItem> Users => UserStore.Instance.Users;
 
-        // -----------------------------------------------------------------
-        // 2. Role options available in the inline dropdown
-        // -----------------------------------------------------------------
+
         public ObservableCollection<UserRole> AvailableRoles { get; }
 
-        // -----------------------------------------------------------------
-        // 3. Role Summary Counts (drives the top cards)
-        // -----------------------------------------------------------------
+
         public int AdminCount => Users.Count(u => u.Role == UserRole.Admin);
         public int ManagerCount => Users.Count(u => u.Role == UserRole.Manager);
         public int EmployeeCount => Users.Count(u => u.Role == UserRole.Employee);
         public int ClientCount => Users.Count(u => u.Role == UserRole.Client);
 
-        // -----------------------------------------------------------------
-        // 4. Commands
-        // -----------------------------------------------------------------
+
         public ICommand RoleChangedCommand { get; }
         public ICommand OpenAddUserDialogCommand { get; }
         public ICommand SaveNewUserCommand { get; }
         public ICommand CancelAddUserCommand { get; }
 
-        // -----------------------------------------------------------------
-        // 5. Add User dialog state
-        // -----------------------------------------------------------------
+
         private bool _isAddUserDialogOpen;
         public bool IsAddUserDialogOpen
         {
@@ -72,7 +60,7 @@ namespace BrickByBrick.ViewModels
 
         private void AttachRoleWatcher()
         {
-            // Recalculate summary counts whenever any user's role changes
+
             foreach (var user in Users)
             {
                 AttachRoleWatcherTo(user);
@@ -95,8 +83,7 @@ namespace BrickByBrick.ViewModels
 
         private void ExecuteRoleChanged(object? parameter)
         {
-            // UI-only for now. Hook this up to a real persistence/service call later.
-            // parameter is the UserListItem whose role was just changed via the dropdown.
+
         }
 
         private void ExecuteOpenAddUserDialog()
@@ -112,7 +99,7 @@ namespace BrickByBrick.ViewModels
 
         private void ExecuteSaveNewUser()
         {
-            // Basic guard: require at least a name and email before adding.
+
             if (string.IsNullOrWhiteSpace(NewUserForm.FullName) || string.IsNullOrWhiteSpace(NewUserForm.Email))
             {
                 return;

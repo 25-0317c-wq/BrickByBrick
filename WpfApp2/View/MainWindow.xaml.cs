@@ -52,5 +52,12 @@ namespace BrickByBrick.View
 
             shell.Show();
         }
+
+        private void CreateAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            var signUpWindow = new SignUpWindow();
+            signUpWindow.Show();
+            this.Close();
+        }
     }
 }

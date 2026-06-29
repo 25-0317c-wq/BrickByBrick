@@ -193,13 +193,10 @@ namespace BrickByBrick.ViewModels
                 SubmittedOn = DateTime.Now
             };
 
-            // Add to the shared store — this is what makes the new proposal
-            // immediately visible in the Manager's approval queue.
+
             ProposalStore.Instance.Proposals.Insert(0, proposal);
 
-            // RefreshMyProposals() runs automatically via the CollectionChanged
-            // handler wired in the constructor, but select the new one explicitly
-            // since that handler tries to preserve the *previous* selection.
+
             SelectedProposal = proposal;
 
             IsSubmitDialogOpen = false;

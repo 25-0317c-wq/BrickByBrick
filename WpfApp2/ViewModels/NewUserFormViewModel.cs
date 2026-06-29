@@ -38,7 +38,6 @@ namespace BrickByBrick.ViewModels
             set { _role = value; OnPropertyChanged(); }
         }
 
-        /// <summary>Resets all fields back to their defaults, ready for the next entry.</summary>
         public void Reset()
         {
             FullName = string.Empty;

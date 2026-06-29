@@ -291,11 +291,7 @@ namespace BrickByBrick.ViewModels
             }
         }
 
-        /// <summary>
-        /// Chart points built directly from the project's progress update history.
-        /// Starts at 0% on the submission date so the chart always has a visible
-        /// starting point, even for a brand-new approved project with one update.
-        /// </summary>
+
         public List<ProgressChartPoint> ChartPoints
         {
             get

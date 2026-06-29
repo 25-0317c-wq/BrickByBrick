@@ -3,12 +3,6 @@ using BrickByBrick.Models;
 
 namespace BrickByBrick.ViewModels
 {
-    /// <summary>
-    /// Backs the "Add Project" modal — lets Admin/Manager create a project
-    /// directly (bypassing the Client-submission flow), matching the fields
-    /// from the Add Project wireframe: name, phase, location, client,
-    /// project type, and building category.
-    /// </summary>
     public class AddProjectFormViewModel : BaseViewModel
     {
         private string _projectName = string.Empty;
